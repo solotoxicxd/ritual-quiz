@@ -4,28 +4,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ritual Quiz | Test Your Knowledge</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap"
+    <title>Elite Quiz Challenge</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
     <style>
         :root {
-            --container-padding-lg: 50px;
-            --container-padding-md: 30px;
-            --container-padding-sm: 15px;
-            --corner-size-lg: 40px;
-            --corner-size-md: 30px;
-            --corner-size-sm: 18px;
-            --container-radius-lg: 24px;
-            --container-radius-sm: 12px;
-            --font-h1-lg: 3rem;
-            --font-h1-md: 2rem;
-            --font-h1-sm: 1.2rem;
-            --quiz-width: 100%;
-            --quiz-max-width-lg: 800px;
-            --quiz-max-width-sm: 97vw;
+            --primary-gradient: linear-gradient(135deg, #19d184 0%, #19d184 100%);
+            --secondary-gradient: linear-gradient(135deg, #000000 0%, #000000 100%);
+            --accent-gradient: linear-gradient(135deg, #19d184 0%, #19d184 100%);
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.8);
+            --success-color: #10b981;
+            --danger-color: #ef4444;  
+            --warning-color: #f59e0b;
         }
 
         * {
@@ -35,269 +28,115 @@
         }
 
         body {
-            font-family: 'Rajdhani', sans-serif;
-            background: #0A0A0F;
+            font-family: 'Poppins', sans-serif;
+            background: #000000;
+            background-attachment: fixed;
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 6vw 0;
-            color: #A0A0B0;
-            position: relative;
+            color: var(--text-primary);
             overflow-x: hidden;
         }
 
-        .bg-animation {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            pointer-events: none;
-            z-index: 0;
+        /* Glassmorphism Container */
+        .glass-container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            animation: slideIn 0.8s ease-out;
         }
 
-        .bg-grid {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background-image:
-                linear-gradient(rgba(0, 255, 178, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 255, 178, 0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
-            animation: gridMove 20s linear infinite;
-        }
-
-        @keyframes gridMove {
-            0% {
-                transform: translate(0, 0);
-            }
-
-            100% {
-                transform: translate(50px, 50px);
-            }
-        }
-
-        .glow-orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.3;
-            animation: float 8s ease-in-out infinite;
-        }
-
-        .orb-1 {
-            width: 300px;
-            height: 300px;
-            background: #00FFB2;
-            top: 8%;
-            left: 3%;
-            animation-delay: 0s;
-        }
-
-        .orb-2 {
-            width: 220px;
-            height: 220px;
-            background: #2663FF;
-            bottom: 7%;
-            right: 2%;
-            animation-delay: 2s;
-        }
-
-        @keyframes float {
-
-            0%,
-            100% {
-                transform: translate(0, 0) scale(1);
-            }
-
-            50% {
-                transform: translate(24px, -24px) scale(1.06);
-            }
-        }
-
-        .container {
-            background: rgba(21, 21, 32, 0.85);
-            backdrop-filter: blur(15px);
-            border-radius: var(--container-radius-lg);
-            box-shadow:
-                0 8px 32px rgba(0, 0, 0, 0.4),
-                0 0 0 1px rgba(0, 255, 178, 0.1),
-                inset 0 0 36px rgba(0, 255, 178, 0.02);
-            width: var(--quiz-width);
-            max-width: var(--quiz-max-width-lg);
-            padding: var(--container-padding-lg);
-            position: relative;
-            z-index: 1;
-            animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        @keyframes slideUp {
+        @keyframes slideIn {
             from {
                 opacity: 0;
-                transform: translateY(40px);
+                transform: translateY(30px) scale(0.95);
             }
 
             to {
                 opacity: 1;
-                transform: translateY(0);
+                transform: translateY(0) scale(1);
             }
         }
 
-        .corner-accent {
-            position: absolute;
-            width: var(--corner-size-lg);
-            height: var(--corner-size-lg);
-            border: 2px solid #00FFB2;
+        /* Screen Management */
+        .screen {
+            display: none;
+            min-height: 100vh;
+            padding: 2rem;
+            align-items: center;
+            justify-content: center;
         }
 
-        .corner-accent.top-left {
-            top: 20px;
-            left: 20px;
-            border-right: none;
-            border-bottom: none;
+        .screen.active {
+            display: flex;
         }
 
-        .corner-accent.top-right {
-            top: 20px;
-            right: 20px;
-            border-left: none;
-            border-bottom: none;
-        }
-
-        .corner-accent.bottom-left {
-            bottom: 20px;
-            left: 20px;
-            border-right: none;
-            border-top: none;
-        }
-
-        .corner-accent.bottom-right {
-            bottom: 20px;
-            right: 20px;
-            border-left: none;
-            border-top: none;
-        }
-
-        h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: var(--font-h1-lg);
-            font-weight: 900;
-            color: #FFFFFF;
+        /* Welcome Screen */
+        .welcome-content {
             text-align: center;
-            margin-bottom: 15px;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            background: linear-gradient(135deg, #FFFFFF 0%, #00FFB2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            position: relative;
-            animation: glow 2s ease-in-out infinite alternate;
-            word-break: break-word;
+            max-width: 500px;
+            width: 100%;
         }
 
-        @keyframes glow {
-            from {
-                filter: drop-shadow(0 0 10px rgba(0, 255, 178, 0.5));
-            }
-
-            to {
-                filter: drop-shadow(0 0 20px rgba(0, 255, 178, 0.8));
-            }
+        .logo {
+            font-size: 3rem;
+            font-weight: 700;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            animation: glow 2s ease-in-out infinite alternate;
         }
 
         .subtitle {
-            text-align: center;
-            color: #A0A0B0;
-            margin-bottom: 40px;
-            font-size: 1.15rem;
-            font-weight: 400;
-            letter-spacing: 1px;
-        }
-
-        .welcome-section,
-        .quiz-section,
-        .results-section {
-            display: none;
-        }
-
-        .welcome-section.active,
-        .quiz-section.active,
-        .results-section.active {
-            display: block;
-            animation: fadeIn 0.4s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-weight: 300;
         }
 
         .input-group {
-            margin-bottom: 30px;
+            margin-bottom: 2rem;
         }
 
-        label {
-            display: block;
-            margin-bottom: 10px;
-            font-weight: 600;
-            color: #00FFB2;
-            font-size: 0.98rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        input[type="text"] {
+        .glass-input {
             width: 100%;
-            padding: 14px 14px;
-            border: 2px solid rgba(0, 255, 178, 0.2);
-            border-radius: 10px;
-            font-size: 1.03rem;
-            font-family: 'Rajdhani', sans-serif;
-            font-weight: 500;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            background: rgba(10, 10, 15, 0.6);
-            color: #FFFFFF;
-            letter-spacing: 1px;
-        }
-
-        input[type="text"]:focus {
+            padding: 1rem 1.5rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            font-family: inherit;
             outline: none;
-            border-color: #00FFB2;
-            box-shadow: 0 0 18px rgba(0, 255, 178, 0.22);
-            background: rgba(10, 10, 15, 0.87);
+            transition: all 0.3s ease;
         }
 
-        input[type="text"]::placeholder {
-            color: #A0A0B0;
+        .glass-input:focus {
+            border-color: #19d184;
+            transform: scale(1.02);
         }
 
-        .error-message {
-            color: #FF3366;
-            font-size: 0.89rem;
-            margin-top: 8px;
-            display: none;
-            font-weight: 500;
+        .glass-input::placeholder {
+            color: var(--text-secondary);
         }
 
+        /* Button Styles */
         .btn {
-            width: 100%;
-            padding: 14px;
+            padding: 1rem 2rem;
             border: none;
-            border-radius: 10px;
-            font-size: 1.09rem;
-            font-weight: 700;
-            font-family: 'Orbitron', sans-serif;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            text-transform: uppercase;
-            letter-spacing: 2.5px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            font-family: inherit;
             position: relative;
             overflow: hidden;
         }
@@ -309,8 +148,8 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 0.5s;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
         }
 
         .btn:hover::before {
@@ -318,221 +157,123 @@
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #00FFB2 0%, #00D69A 100%);
-            color: #0A0A0F;
-            box-shadow: 0 3px 12px rgba(0, 255, 178, 0.24);
+            background: var(--primary-gradient);
+            color: var(--text-primary);
+
         }
 
         .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 255, 178, 0.31);
-        }
+            transform: translateY(-3px) scale(1.05);
 
-        .btn-primary:active {
-            transform: translateY(-1px);
         }
 
         .btn-secondary {
-            background: linear-gradient(135deg, #2663FF 0%, #1E4FCC 100%);
-            color: #FFF;
-            margin-top: 15px;
-            box-shadow: 0 3px 12px rgba(38, 99, 255, 0.14);
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            color: var(--text-primary);
+            border: 1px solid var(--glass-border);
         }
 
         .btn-secondary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 18px rgba(38, 99, 255, 0.22);
+            background: rgba(255, 255, 255, 0.2);
         }
 
-        .question-container {
-            margin-bottom: 20px;
+        .btn-share {
+            background: linear-gradient(135deg, #19d184 0%, #19d184 100%);
+            color: white;
+            margin: 0 0.5rem;
         }
 
-        .question-header {
+        .btn-share:hover {
+            transform: translateY(-2px) scale(1.05);
+
+        }
+
+        /* Rules Screen */
+        .rules-content {
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .rules-list {
+            list-style: none;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .rules-list li {
+            
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Quiz Screen */
+        .quiz-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
-        .question-number {
-            background: linear-gradient(135deg, rgba(0, 255, 178, 0.12), rgba(38, 99, 255, 0.11));
-            color: #00FFB2;
-            border: 1px solid rgba(0, 255, 178, 0.16);
-            padding: 8px 14px;
-            border-radius: 25px;
-            font-weight: 700;
-            font-size: 0.95rem;
-            font-family: 'Orbitron', sans-serif;
-            letter-spacing: 1px;
-            box-shadow: 0 0 10px rgba(0, 255, 178, 0.08);
+        .progress-container {
+            flex: 1;
+            margin: 0 1rem;
+            min-width: 200px;
         }
 
         .progress-bar {
             width: 100%;
-            height: 5px;
-            background: rgba(0, 255, 178, 0.11);
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
             border-radius: 10px;
             overflow: hidden;
-            margin-bottom: 22px;
-            position: relative;
-        }
-
-        .progress-bar::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(90deg, transparent, rgba(0, 255, 178, 0.18), transparent);
-            animation: shimmer 2s infinite;
-        }
-
-        @keyframes shimmer {
-            0% {
-                transform: translateX(-100%);
-            }
-
-            100% {
-                transform: translateX(100%);
-            }
         }
 
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, #00FFB2 0%, #2663FF 100%);
-            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 0 15px rgba(0, 255, 178, 0.16);
-            position: relative;
-        }
-
-        .question-text {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: #FFF;
-            margin-bottom: 19px;
-            line-height: 1.5;
-            letter-spacing: 0.4px;
-        }
-
-        .options {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .option {
-            padding: 13px 14px;
-            border: 2px solid rgba(0, 255, 178, 0.14);
+            background: var(--accent-gradient);
+            transition: width 0.3s ease;
             border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            background: rgba(0, 255, 178, 0.02);
-            font-size: 1.03rem;
-            color: #A0A0B0;
-            font-weight: 500;
-            position: relative;
-            overflow: hidden;
         }
 
-        .option::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%;
-            width: 3px;
-            transform: scaleY(0);
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .option:hover {
-            background: rgba(0, 255, 178, 0.07);
-            transform: translateX(5px);
-            color: #FFF;
-            box-shadow: 0 2px 7px rgba(0, 255, 178, 0.08);
-        }
-
-        .option:hover::before {
-            transform: scaleY(1);
-        }
-
-        .option.selected {
-            border-color: #00FFB2;
-            background: linear-gradient(135deg, rgba(0, 255, 178, 0.15), rgba(38, 99, 255, 0.09));
-            color: #FFF;
-            font-weight: 600;
-            box-shadow: 0 0 15px rgba(0, 255, 178, 0.08);
-            transform: translateX(6px);
-        }
-
-        .option.selected::before {
-            transform: scaleY(1);
-        }
-
-        .navigation-buttons {
-            display: flex;
-            gap: 16px;
-            margin-top: 22px;
-        }
-
-        .btn-nav {
-            flex: 1;
-            padding: 13px;
-            border: none;
-            border-radius: 10px;
-            font-size: 1.01rem;
-            font-weight: 700;
-            font-family: 'Orbitron', sans-serif;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .btn-prev {
-            background: rgba(160, 160, 176, 0.10);
-            color: #A0A0B0;
-            border: 2px solid rgba(160, 160, 176, 0.15);
-        }
-
-        .btn-prev:hover:not(:disabled) {
-            background: rgba(160, 160, 176, 0.17);
-            color: #FFF;
-            border-color: rgba(160, 160, 176, 0.3);
-            transform: translateY(-1.5px);
-        }
-
-        .btn-next {
-            background: linear-gradient(135deg, #00FFB2 0%, #00D69A 100%);
-            color: #0A0A0F;
-            box-shadow: 0 2px 8px rgba(0, 255, 178, 0.14);
-        }
-
-        .btn-next:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 16px rgba(0, 255, 178, 0.15);
-        }
-
-        .btn-nav:disabled {
-            opacity: 0.26;
-            cursor: not-allowed;
-            transform: none !important;
-        }
-
-        .results-section {
+        .progress-text {
             text-align: center;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
         }
 
-        .score-card {
-            background: linear-gradient(135deg, rgba(0, 255, 178, 0.08), rgba(38, 99, 255, 0.07));
-            border: 2px solid rgba(0, 255, 178, 0.19);
-            border-radius: 16px;
-            padding: 18px 6px 28px 6px;
-            margin: 20px 0;
-            box-shadow: 0 0 24px rgba(0, 255, 178, 0.12);
-            animation: pulse 2s ease-in-out infinite;
+        .timer {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 3px solid var(--success-color);
+            font-size: 1.5rem;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .timer.warning {
+            border-color: var(--warning-color);
+            color: var(--warning-color);
+            animation: pulse 1s ease-in-out infinite;
+        }
+
+        .timer.danger {
+            border-color: var(--danger-color);
+            color: var(--danger-color);
+            animation: shake 0.5s ease-in-out infinite;
         }
 
         @keyframes pulse {
@@ -543,72 +284,10 @@
             }
 
             50% {
-                transform: scale(1.01);
+                transform: scale(1.1);
             }
         }
 
-        .score-display {
-            font-size: 3rem;
-            font-weight: 900;
-            font-family: 'Orbitron', sans-serif;
-            color: #00FFB2;
-            margin: 12px 0;
-            text-shadow: 0 0 10px rgba(0, 255, 178, 0.13), 0 0 16px rgba(0, 255, 178, 0.10);
-            letter-spacing: 3px;
-        }
-
-        .performance-message {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-bottom: 9px;
-            color: #FFF;
-            letter-spacing: 1.4px;
-            text-transform: uppercase;
-        }
-
-        .user-name-display {
-            font-size: 1.1rem;
-            color: #A0A0B0;
-            margin-bottom: 15px;
-            font-weight: 500;
-        }
-
-        .highlight {
-            color: #00FFB2;
-            font-weight: 700;
-        }
-
-        .stat-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 11px;
-            margin-top: 18px;
-        }
-
-        .stat-item {
-            background: rgba(0, 255, 178, 0.03);
-            border: 1px solid rgba(0, 255, 178, 0.11);
-            border-radius: 8px;
-            padding: 11px 0;
-            text-align: center;
-        }
-
-        .stat-value {
-            font-size: 1.21rem;
-            font-weight: 700;
-            color: #00FFB2;
-            font-family: 'Orbitron', sans-serif;
-        }
-
-        .stat-label {
-            font-size: 0.89rem;
-            color: #A0A0B0;
-            margin-top: 3px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* Shake animation for error */
         @keyframes shake {
 
             0%,
@@ -616,434 +295,670 @@
                 transform: translateX(0);
             }
 
-            20%,
-            60% {
-                transform: translateX(-8px);
+            25% {
+                transform: translateX(-5px);
             }
 
-            40%,
-            80% {
-                transform: translateX(8px);
+            75% {
+                transform: translateX(5px);
             }
         }
 
-        /* Media Queries for Responsive Layouts */
-        @media (max-width: 900px) {
-            .container {
-                max-width: 96vw;
+        .question-container {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .question-text {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .options-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .option {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 2px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            font-size: 1.1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option:hover {
+            transform: translateY(-5px) scale(1.02);
+            border-color: rgba(0, 163, 122, 0.6);
+
+        }
+
+        .option.selected {
+            border-color: rgba(0, 98, 36, 0.8);
+            transform: scale(1.02);
+        }
+
+        .option.correct {
+            background: rgba(16, 185, 129, 0.3);
+            border-color: var(--success-color);
+            animation: correctPulse 0.6s ease;
+        }
+
+        .option.incorrect {
+            background: rgba(239, 68, 68, 0.3);
+            border-color: var(--danger-color);
+            animation: incorrectShake 0.6s ease;
+        }
+
+        @keyframes correctPulse {
+            0% {
+                transform: scale(1);
             }
 
-            h1 {
-                font-size: var(--font-h1-md);
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
             }
         }
 
-        @media (max-width: 600px) {
-            body {
-                padding: 0;
+        @keyframes incorrectShake {
+
+            0%,
+            100% {
+                transform: translateX(0);
             }
 
-            .container {
-                max-width: var(--quiz-max-width-sm);
-                padding: var(--container-padding-md);
-                border-radius: var(--container-radius-sm);
+            25% {
+                transform: translateX(-10px);
             }
 
-            h1 {
-                font-size: var(--font-h1-md);
+            75% {
+                transform: translateX(10px);
+            }
+        }
+
+        /* Results Screen */
+        .results-content {
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .score-display {
+            font-size: 4rem;
+            font-weight: 700;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            animation: scoreCount 2s ease-out;
+        }
+
+        @keyframes scoreCount {
+            from {
+                transform: scale(0.5);
+                opacity: 0;
             }
 
-            .subtitle {
-                font-size: 0.98rem;
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .score-message {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            color: var(--text-secondary);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        /* Footer */
+        .footer {
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            z-index: 1000;
+        }
+
+        .footer a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .glass-container {
+                padding: 1.5rem;
+                margin: 1rem;
             }
 
-            .score-display {
-                font-size: 2.1rem;
+            .logo {
+                font-size: 2.5rem;
+            }
+
+            .quiz-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .progress-container {
+                margin: 0;
+                order: -1;
+            }
+
+            .timer {
+                width: 60px;
+                height: 60px;
+                font-size: 1.2rem;
             }
 
             .question-text {
-                font-size: 1rem;
+                font-size: 1.2rem;
             }
 
-            .options {
-                gap: 8px;
-            }
-
-            .navigation-buttons {
-                flex-direction: column;
-                gap: 12px;
-            }
-
-            .stat-grid {
+            .options-container {
                 grid-template-columns: 1fr;
-                gap: 8px;
             }
 
-            .corner-accent {
-                width: var(--corner-size-md);
-                height: var(--corner-size-md);
+            .score-display {
+                font-size: 3rem;
             }
 
-            .corner-accent.top-left,
-            .corner-accent.bottom-left {
-                left: 10px;
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
             }
 
-            .corner-accent.top-right,
-            .corner-accent.bottom-right {
-                right: 10px;
-            }
-
-            .corner-accent.top-left,
-            .corner-accent.top-right {
-                top: 10px;
-            }
-
-            .corner-accent.bottom-left,
-            .corner-accent.bottom-right {
-                bottom: 10px;
-            }
-
-            .orb-1 {
-                width: 120px;
-                height: 120px;
-            }
-
-            .orb-2 {
-                width: 95px;
-                height: 95px;
+            .action-buttons .btn {
+                width: 100%;
+                max-width: 300px;
             }
         }
 
-        @media (max-width: 400px) {
-            .container {
-                padding: var(--container-padding-sm);
-            }
+        /* Smooth transitions between screens */
+        .fade-out {
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.5s ease;
+        }
 
-            h1 {
-                font-size: var(--font-h1-sm);
-            }
+        .fade-in {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.5s ease;
+        }
 
-            .corner-accent {
-                width: var(--corner-size-sm);
-                height: var(--corner-size-sm);
-            }
+        /* Loading animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid var(--text-secondary);
+            border-radius: 50%;
+            border-top-color: var(--text-primary);
+            animation: spin 1s ease-in-out infinite;
+        }
 
-            .score-card {
-                padding: 10px 2px 18px 2px;
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
             }
         }
     </style>
 </head>
 
 <body>
-    <div class="bg-animation">
-        <div class="bg-grid"></div>
-        <div class="glow-orb orb-1"></div>
-        <div class="glow-orb orb-2"></div>
-    </div>
-    <div class="container">
-        <div class="corner-accent top-left"></div>
-        <div class="corner-accent top-right"></div>
-        <div class="corner-accent bottom-left"></div>
-        <div class="corner-accent bottom-right"></div>
-        <!-- Welcome Section -->
-        <div class="welcome-section active">
-            <h1>RITUAL QUIZ</h1>
-            <p class="subtitle">DECODE <a href="https://www.ritual.net/" style="text-decoration: none; color: #00FFB2;">RITUAL</a> UNIVERSE</p>
+
+    <!-- Welcome Screen -->
+    <div id="welcomeScreen" class="screen active">
+        <div class="glass-container welcome-content">
+            <h1 class="logo">Ritual Quiz</h1>
+            <p class="subtitle">Challenge Your Knowledge</p>
+
             <div class="input-group">
-                <label for="userName">INITIALIZE USER</label>
-                <input type="text" id="userName" placeholder="Enter your name...">
-                <p class="error-message" id="nameError">Username required to proceed</p>
+                <input type="text" id="usernameInput" class="glass-input" placeholder="Enter your name" maxlength="20">
             </div>
-            <button class="btn btn-primary" onclick="startQuiz()">LAUNCH QUIZ</button>
+
+            <button class="btn btn-primary" onclick="showRules()">Start Challenge</button>
         </div>
-        <!-- Quiz Section -->
-        <div class="quiz-section">
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <!-- Rules Screen -->
+    <div id="rulesScreen" class="screen">
+        <div class="glass-container rules-content">
+            <h2 style="text-align: center; margin-bottom: 2rem; font-size: 2rem;">Quiz Rules</h2>
+
+            <ul class="rules-list">
+                <li>Answer 10 challenging questions</li>
+                <li>Each question has 4 multiple choice options</li>
+                <li>You have 15 seconds per question</li>
+                <li>Questions auto-advance when time expires</li>
+                <li>No going back to previous questions</li>
+                <li>Your final score will be calculated at the end</li>
+            </ul>
+
+            <div style="text-align: center;">
+                <button class="btn btn-secondary" onclick="showWelcome()" style="margin-right: 1rem;">Back</button>
+                <button class="btn btn-primary" onclick="startQuiz()">Let's Begin!</button>
             </div>
-            <div class="question-header">
-                <span class="question-number" id="questionNumber">QUESTION 1 / 10</span>
+        </div>
+    </div>
+
+    <!-- Quiz Screen -->
+    <div id="quizScreen" class="screen">
+        <div class="glass-container" style="max-width: 800px; width: 100%;">
+            <div class="quiz-header">
+                <div style="font-weight: 600;">Score: <span id="currentScore">0</span></div>
+
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="progress-text" id="progressText">Question 1 of 10</div>
+                </div>
+
+                <div class="timer" id="timer">15</div>
             </div>
+
             <div class="question-container">
-                <h2 class="question-text" id="questionText"></h2>
-                <div class="options" id="optionsContainer"></div>
-            </div>
-            <div class="navigation-buttons">
-                <button class="btn-nav btn-prev" onclick="previousQuestion()" id="prevBtn">BACK</button>
-                <button class="btn-nav btn-next" onclick="nextQuestion()" id="nextBtn">NEXT</button>
-            </div>
-        </div>
-        <!-- Results Section -->
-        <div class="results-section">
-            <h1>MISSION COMPLETE</h1>
-            <p class="user-name-display" id="resultName"></p>
-            <div class="score-card">
-                <div class="score-display" id="scoreDisplay"></div>
-                <p class="performance-message" id="performanceMessage"></p>
-                <div class="stat-grid">
-                    <div class="stat-item">
-                        <div class="stat-value" id="correctCount">0</div>
-                        <div class="stat-label">Correct</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value" id="accuracyPercent">0%</div>
-                        <div class="stat-label">Accuracy</div>
-                    </div>
+                <h3 class="question-text" id="questionText"></h3>
+
+                <div class="options-container" id="optionsContainer">
+                    <!-- Options will be dynamically generated -->
                 </div>
             </div>
-            <button class="btn btn-secondary" onclick="shareOnTwitter()">
-                SHARE ON X
-            </button>
-            <button class="btn btn-primary" onclick="restartQuiz()" style="margin-top: 15px;">
-                RETRY MISSION
-            </button>
         </div>
     </div>
+
+    <!-- Results Screen -->
+    <div id="resultsScreen" class="screen">
+        <div class="glass-container results-content">
+            <h2 style="margin-bottom: 1rem; font-size: 2rem;">Quiz Complete!</h2>
+
+            <div class="score-display" id="finalScore">0/10</div>
+
+            <p class="score-message" id="scoreMessage"></p>
+
+            <div class="action-buttons">
+                <button class="btn btn-share" onclick="shareToX()">Share on X</button>
+                <button class="btn btn-primary" onclick="restartQuiz()">Try Again</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        Made by <a href="#">Bytrizz</a>
+    </div>
+
     <script>
+        // Quiz Data
         const quizData = [
             {
-                question: "What is Enshrined AI, in the context of Ritual?",
+                question: "Within Ritual’s Symphony protocol, which mechanism ensures validator consensus on heterogeneous off-chain computations while minimizing redundant execution?",
                 options: [
-                    "AI models stored in IPFS only",
-                    "AI models with on-chain cryptographic integrity proofs",
-                    "AI models run off-chain without verification",
-                    "Models embedded in smart contracts"
+                    "Weighted-majority gossip rounds determining probabilistic correctness.",
+                    "Executor-provided succinct proofs or attested TEE outputs verified by deterministically assigned proof shards.",
+                    "Re-execution of the computation by every validator node for cross-verification.",
+                    "Asynchronous batching of inference results through optimistic settlement."
                 ],
                 correct: 1
             },
             {
-                question: "In Ritual’s architecture, what role do sidecars play?",
+                question: "When Ritual’s Infernet orchestrates inference across distributed AI executors, what underlying property guarantees composability with external L1/L2s?",
                 options: [
-                    "They host UI components",
-                    "They provide off-chain compute to run model inferences",
-                    "They store NFTs",
-                    "They handle consensus"
-                ],
-                correct: 1
-            },
-            {
-                question: "What is EVM++ in Ritual's design?",
-                options: [
-                    "A new token standard",
-                    "Extended Ethereum Virtual Machine enabling AI primitives",
-                    "A front-end UI framework",
-                    "A consensus algorithm"
-                ],
-                correct: 1
-            },
-            {
-                question: "How does Ritual ensure computational integrity for AI outputs?",
-                options: [
-                    "Through centralized oracle nodes",
-                    "Via zero-knowledge proofs or verifiable computation",
-                    "By trusting the model provider",
-                    "Using off-chain aggregation only"
-                ],
-                correct: 1
-            },
-            {
-                question: "What is the concept of a verification circuit in the context of ZKML?",
-                options: [
-                    "A UI component",
-                    "A circuit that verifies model output without revealing private data",
-                    "An encryption scheme",
-                    "A payment channel"
-                ],
-                correct: 1
-            },
-            {
-                question: "What is Resonance in Ritual’s fee mechanism?",
-                options: [
-                    "Token staking protocol",
-                    "Mechanism to optimize AI inference pricing across hardware",
-                    "Voting power system",
-                    "Governance module"
-                ],
-                correct: 1
-            },
-            {
-                question: "In the Ritual-FLock collaboration, what does FLock provide?",
-                options: [
-                    "A social network",
-                    "Federated AI training infrastructure",
-                    "A stablecoin",
-                    "A front-end toolkit"
-                ],
-                correct: 1
-            },
-            {
-                question: "Which property is not generally required in a verifiable AI execution system?",
-                options: [
-                    "Soundness",
-                    "Completeness",
-                    "Transparency",
-                    "Unlimited latency"
+                    "Infernet maintains an off-chain indexer layer for every external chain.",
+                    "Cross-domain compute proofs are wrapped in canonical message envelopes verified by Ritual Chain’s Symphony consensus.",
+                    "External chains directly read cached responses from Ritual node mempools.",
+                    "Ritual mirrors its state roots to all supported chains via static RPC bridging."
                 ],
                 correct: 3
             },
             {
-                question: "In Ritual’s vision, how can AI be treated as a “first-class primitive” in Web3?",
+                question: "Which operational risk arises from Resonance’s compute fee market during load spikes, and how is it algorithmically mitigated?",
                 options: [
-                    "By embedding AI directly in UIs",
-                    "Allowing smart contracts to call AI models with proofs",
-                    "Limiting AI to off-chain use only",
-                    "Selling AI as NFTs only"
+                    "Task starvation of low-fee requests, mitigated through dynamic priority decay and time-weighted bids.",
+                    "Overpricing of high-latency models, mitigated via static gas caps per workload type.",
+                    "Executor monopoly formation, mitigated only by node whitelisting.",
+                    "Invalid bid propagation, mitigated through human governance arbitration."
+                ],
+                correct: 0
+            },
+            {
+                question: "In Ritual’s architecture, what prevents a malicious TEE executor from replaying signed outputs as new valid inferences?",
+                options: [
+                    "TEE sessions are tied to ephemeral attestation keys and unique execution nonces embedded in proof metadata.",
+                    "Infernet timestamps every result in block headers to prevent temporal reuse.",
+                    "TEE proofs are manually invalidated by governance after each task cycle.",
+                    "Replay resistance is provided only by the executor’s public reputation score."
+                ],
+                correct: 2
+            },
+            {
+                question: "What subtle advantage does Ritual’s proof-system agnosticism provide for AI verifiability, beyond flexibility?",
+                options: [
+                    "Allows zero-cost migration between ZK systems without recompilation.",
+                    "Permits hybrid proof pipelines — e.g., ZKML for inference correctness, TEE attestation for data secrecy — optimizing trust boundaries per workload.",
+                    "Eliminates need for deterministic model weights on-chain.",
+                    "Lets developers outsource proof verification entirely to other chains."
+                ],
+                correct: 3
+            },
+            {
+                question: "Within Symphony’s dual-proof sharding, what ensures that no single shard can bias final verification?",
+                options: [
+                    "Cross-shard recombination with quorum-weighted cross-signatures validated by meta-committees.",
+                    "Static shard assignment so validators remain consistent between epochs.",
+                    "Proof rotation every epoch determined by static randomness seeds.",
+                    "Validator honesty assumption without cryptographic enforcement."
+                ],
+                correct: 0
+            },
+            {
+                question: "How does Ritual encode immutable lineage for enshrined models to maintain auditability even if contributors vanish?",
+                options: [
+                    "By replicating the contributor list through IPFS mirrors.",
+                    "By embedding signed contribution manifests directly within model metadata hashes, permanently anchored in Ritual Chain state.",
+                    "Through optional contributor acknowledgments stored in governance logs.",
+                    "Using off-chain attestations submitted to Infernet indexers."
+                ],
+                correct: 2
+            },
+            {
+                question: "In scheduling autonomous agents, what structural safeguard prevents infinite recursive invocation or denial-of-service loops?",
+                options: [
+                    "Recursive agent limits enforced by off-chain keepers.",
+                    "Dynamic gas throttling based on agent priority queue density.",
+                    "Deterministic call-graph bounding and execution context sealing at the protocol level.",
+                    "Randomized epoch resets that clear pending agent tasks."
                 ],
                 correct: 1
             },
             {
-                question: "What’s a potential risk when AI outputs are treated as truth on-chain?",
+                question: "What cryptoeconomic design prevents centralized control of inference-heavy nodes within the Resonance market?",
                 options: [
-                    "Overtrust in model correctness",
-                    "Model bias or malicious models",
-                    "Proof generation cost too high",
-                    "All of the above"
+                    "Linear stake-weighted selection of executors.",
+                    "Periodic identity resets using Proof-of-Hardware commitments.",
+                    "Sybil-resistant bonding curves that increase marginal stake cost for repeated executor selection.",
+                    "Time-based decay of delegation reputation tied to compute variance."
                 ],
                 correct: 3
+            },
+            {
+                question: "Which layer in Ritual’s architecture mediates between off-chain heterogeneous execution and on-chain finality for verifiable results?",
+                options: [
+                    "The Proof Relay Layer integrating Infernet’s output commitments into Symphony consensus.",
+                    "The RPC routing layer handling direct node responses.",
+                    "The Resonance fee aggregator layer optimizing price discovery.",
+                    "The Governance pipeline filtering invalid inference traces."
+                ],
+                correct: 0
             }
         ];
 
-        let currentQuestion = 0;
-        let userName = '';
-        let userAnswers = [];
-        let score = 0;
 
-        function startQuiz() {
-            const nameInput = document.getElementById('userName');
-            const nameError = document.getElementById('nameError');
-            userName = nameInput.value.trim();
-            if (userName === '') {
-                nameError.style.display = 'block';
-                nameInput.style.borderColor = '#FF3366';
-                nameInput.style.animation = 'shake 0.5s';
-                setTimeout(() => nameInput.style.animation = '', 500);
+        // Game State
+        let currentQuestion = 0;
+        let score = 0;
+        let timer = 15;
+        let timerInterval;
+        let username = '';
+        let selectedAnswer = '';
+        let isAnswered = false;
+
+        // Screen Management
+        function showScreen(screenId) {
+            const screens = document.querySelectorAll('.screen');
+            screens.forEach(screen => {
+                screen.classList.remove('active');
+            });
+
+            setTimeout(() => {
+                document.getElementById(screenId).classList.add('active');
+            }, 300);
+        }
+
+        function showWelcome() {
+            showScreen('welcomeScreen');
+        }
+
+        function showRules() {
+            username = document.getElementById('usernameInput').value.trim();
+
+            if (!username) {
+                alert('Please enter your name!');
                 return;
             }
-            nameError.style.display = 'none';
-            nameInput.style.borderColor = 'rgba(0, 255, 178, 0.2)';
-            document.querySelector('.welcome-section').classList.remove('active');
-            document.querySelector('.quiz-section').classList.add('active');
-            loadQuestion();
+
+            showScreen('rulesScreen');
         }
 
-        function loadQuestion() {
-            const question = quizData[currentQuestion];
-            const progressFill = document.getElementById('progressFill');
-            const questionNumber = document.getElementById('questionNumber');
-            const questionText = document.getElementById('questionText');
-            const optionsContainer = document.getElementById('optionsContainer');
-            const prevBtn = document.getElementById('prevBtn');
-            const nextBtn = document.getElementById('nextBtn');
-
-            progressFill.style.width = ((currentQuestion + 1) / quizData.length * 100) + '%';
-            questionNumber.textContent = `QUESTION ${currentQuestion + 1} / ${quizData.length}`;
-            questionText.textContent = question.question;
-
-            optionsContainer.innerHTML = '';
-            question.options.forEach((option, index) => {
-                const optionDiv = document.createElement('div');
-                optionDiv.className = 'option';
-                optionDiv.textContent = option;
-                if (userAnswers[currentQuestion] === index) {
-                    optionDiv.classList.add('selected');
-                }
-                optionDiv.onclick = () => selectOption(index);
-                optionsContainer.appendChild(optionDiv);
-            });
-
-            prevBtn.disabled = currentQuestion === 0;
-            nextBtn.disabled = (userAnswers[currentQuestion] === undefined);
-
-            if (currentQuestion === quizData.length - 1) {
-                nextBtn.textContent = 'FINISH';
-            } else {
-                nextBtn.textContent = 'NEXT';
-            }
-        }
-
-        function selectOption(index) {
-            userAnswers[currentQuestion] = index;
-            const options = document.querySelectorAll('.option');
-            options.forEach((option, i) => {
-                if (i === index) {
-                    option.classList.add('selected');
-                } else {
-                    option.classList.remove('selected');
-                }
-            });
-            document.getElementById('nextBtn').disabled = false;
-        }
-
-        function previousQuestion() {
-            if (currentQuestion > 0) {
-                currentQuestion--;
-                loadQuestion();
-            }
-        }
-
-        function nextQuestion() {
-            if (currentQuestion < quizData.length - 1) {
-                currentQuestion++;
-                loadQuestion();
-            } else {
-                finishQuiz();
-            }
-        }
-
-        function finishQuiz() {
+        function startQuiz() {
+            currentQuestion = 0;
             score = 0;
-            quizData.forEach((question, index) => {
-                if (userAnswers[index] === question.correct) {
-                    score++;
-                }
-            });
-            document.querySelector('.quiz-section').classList.remove('active');
-            document.querySelector('.results-section').classList.add('active');
-            displayResults();
-        }
-
-        function displayResults() {
-            const resultName = document.getElementById('resultName');
-            const scoreDisplay = document.getElementById('scoreDisplay');
-            const performanceMessage = document.getElementById('performanceMessage');
-            const correctCount = document.getElementById('correctCount');
-            const accuracyPercent = document.getElementById('accuracyPercent');
-            resultName.innerHTML = `AGENT: <span class="highlight">${userName.toUpperCase()}</span>`;
-            scoreDisplay.textContent = `${score}/${quizData.length}`;
-            correctCount.textContent = score;
-            const percentage = Math.round((score / quizData.length) * 100);
-            accuracyPercent.textContent = `${percentage}%`;
-            if (percentage === 100) {
-                performanceMessage.textContent = 'LEGENDARY STATUS';
-            } else if (percentage >= 80) {
-                performanceMessage.textContent = 'ELITE PERFORMER';
-            } else if (percentage >= 60) {
-                performanceMessage.textContent = 'ADVANCED LEVEL';
-            } else if (percentage >= 40) {
-                performanceMessage.textContent = 'INTERMEDIATE';
-            } else {
-                performanceMessage.textContent = 'BEGINNER MODE';
-            }
-        }
-
-        function shareOnTwitter() {
-            const percentage = Math.round((score / quizData.length) * 100);
-            const tweetText = `I scored ${score}/${quizData.length} (${percentage}%) in the Ritual Quiz! /n https://ritual-quiz-mu.vercel.app/`;
-            const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`;
-            window.open(twitterUrl, '_blank');
+            showScreen('quizScreen');
+            displayQuestion();
+            startTimer();
         }
 
         function restartQuiz() {
-            userAnswers = [];
-            score = 0;
             currentQuestion = 0;
-            document.querySelector('.results-section').classList.remove('active');
-            document.querySelector('.welcome-section').classList.add('active');
-            document.getElementById('userName').value = '';
-            document.getElementById('userName').style.borderColor = 'rgba(0, 255, 178, 0.2)';
+            score = 0;
+            clearInterval(timerInterval);
+            showScreen('welcomeScreen');
+            document.getElementById('usernameInput').value = username;
         }
+
+        // Quiz Logic
+        function displayQuestion() {
+            const question = quizData[currentQuestion];
+            isAnswered = false;
+            selectedAnswer = '';
+
+            // Update progress
+            const progress = ((currentQuestion) / quizData.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            document.getElementById('progressText').textContent = `Question ${currentQuestion + 1} of ${quizData.length}`;
+
+            // Update score display
+            document.getElementById('currentScore').textContent = score;
+
+            // Display question
+            document.getElementById('questionText').textContent = question.question;
+
+            // Display options
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = '';
+
+            question.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                optionElement.textContent = option;
+                optionElement.onclick = () => selectAnswer(option, optionElement);
+                optionsContainer.appendChild(optionElement);
+            });
+        }
+
+        function selectAnswer(answer, element) {
+            if (isAnswered) return;
+
+            isAnswered = true;
+            selectedAnswer = answer;
+
+            // Clear previous selections
+            document.querySelectorAll('.option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+
+            // Mark selected
+            element.classList.add('selected');
+
+            // Check answer after short delay for better UX
+            setTimeout(() => {
+                checkAnswer();
+            }, 500);
+        }
+
+        function checkAnswer() {
+            const question = quizData[currentQuestion];
+            const options = document.querySelectorAll('.option');
+
+            options.forEach(option => {
+                if (option.textContent === question.correct) {
+                    option.classList.add('correct');
+                    if (selectedAnswer === question.correct) {
+                        score++;
+                    }
+                } else if (option.textContent === selectedAnswer && selectedAnswer !== question.correct) {
+                    option.classList.add('incorrect');
+                }
+            });
+
+            // Move to next question after showing results
+            setTimeout(() => {
+                nextQuestion();
+            }, 1500);
+        }
+
+        function nextQuestion() {
+            clearInterval(timerInterval);
+            currentQuestion++;
+
+            if (currentQuestion < quizData.length) {
+                displayQuestion();
+                startTimer();
+            } else {
+                showResults();
+            }
+        }
+
+        function startTimer() {
+            timer = 15;
+            const timerElement = document.getElementById('timer');
+            timerElement.textContent = timer;
+            timerElement.className = 'timer';
+
+            timerInterval = setInterval(() => {
+                timer--;
+                timerElement.textContent = timer;
+
+                // Update timer appearance based on remaining time
+                if (timer <= 5) {
+                    timerElement.className = 'timer danger';
+                } else if (timer <= 10) {
+                    timerElement.className = 'timer warning';
+                }
+
+                // Time's up!
+                if (timer <= 0) {
+                    clearInterval(timerInterval);
+                    if (!isAnswered) {
+                        isAnswered = true;
+                        // Show correct answer and move on
+                        const question = quizData[currentQuestion];
+                        const options = document.querySelectorAll('.option');
+                        options.forEach(option => {
+                            if (option.textContent === question.correct) {
+                                option.classList.add('correct');
+                            }
+                        });
+
+                        setTimeout(() => {
+                            nextQuestion();
+                        }, 1500);
+                    }
+                }
+            }, 1000);
+        }
+
+        function showResults() {
+            clearInterval(timerInterval);
+
+            // Update progress to 100%
+            document.getElementById('progressFill').style.width = '100%';
+
+            // Calculate percentage
+            const percentage = Math.round((score / quizData.length) * 100);
+
+            // Display results
+            document.getElementById('finalScore').textContent = `${score}/${quizData.length}`;
+
+            // Customize message based on score
+            let message = '';
+            if (percentage >= 90) {
+                message = `Outstanding, ${username}! You're a quiz master! `;
+            } else if (percentage >= 70) {
+                message = `Great job, ${username}! Well done! `;
+            } else if (percentage >= 50) {
+                message = `Good effort, ${username}! Keep practicing! `;
+            } else {
+                message = `Don't give up, ${username}! Try again! `;
+            }
+
+            document.getElementById('scoreMessage').textContent = message;
+
+            showScreen('resultsScreen');
+        }
+
+        function shareToX() {
+            const percentage = Math.round((score / quizData.length) * 100);
+            const text = `I just scored ${score}/${quizData.length} (${percentage}%) on the Ritual Quiz Challenge! Can you beat my score?`;
+            const url = 'https://elite-quiz.bytrizz.com';
+            const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
+
+            window.open(shareUrl, '_blank', 'width=600,height=400');
+        }
+
+        // Keyboard Support
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                const activeScreen = document.querySelector('.screen.active').id;
+
+                if (activeScreen === 'welcomeScreen') {
+                    showRules();
+                } else if (activeScreen === 'rulesScreen') {
+                    startQuiz();
+                }
+            }
+
+            // Number key selection for options (1-4)
+            if (activeScreen === 'quizScreen' && !isAnswered) {
+                const num = parseInt(e.key);
+                if (num >= 1 && num <= 4) {
+                    const options = document.querySelectorAll('.option');
+                    if (options[num - 1]) {
+                        selectAnswer(options[num - 1].textContent, options[num - 1]);
+                    }
+                }
+            }
+        });
+
+        // Auto-focus username input
+        document.getElementById('usernameInput').focus();
     </script>
 </body>
 
