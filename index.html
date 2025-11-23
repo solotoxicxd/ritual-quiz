@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ritual Quiz Challenge</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary-gradient: linear-gradient(135deg, #19d184 0%, #19d184 100%);
@@ -17,16 +15,10 @@
             --text-primary: #ffffff;
             --text-secondary: rgba(255, 255, 255, 0.8);
             --success-color: #10b981;
-            --danger-color: #ef4444;  
+            --danger-color: #ef4444;
             --warning-color: #f59e0b;
         }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Poppins', sans-serif;
             background: #000000;
@@ -35,928 +27,327 @@
             color: var(--text-primary);
             overflow-x: hidden;
         }
-
-        /* Glassmorphism Container */
         .glass-container {
             background: var(--glass-bg);
             backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border);
             border-radius: 20px;
             padding: 2rem;
             animation: slideIn 0.8s ease-out;
         }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(30px) scale(0.95);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        /* Screen Management */
-        .screen {
-            display: none;
-            min-height: 100vh;
-            padding: 2rem;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .screen.active {
-            display: flex;
-        }
-
-        /* Welcome Screen */
-        .welcome-content {
-            text-align: center;
-            max-width: 500px;
-            width: 100%;
-        }
-
+        @keyframes slideIn { from {opacity:0; transform:translateY(30px) scale(.95);} to {opacity:1; transform:translateY(0) scale(1);} }
+        .screen { display:none; min-height:100vh; padding:2rem; align-items:center; justify-content:center; }
+        .screen.active { display:flex; }
+        .welcome-content { text-align:center; max-width:500px; width:100%; }
         .logo {
-            font-size: 3rem;
-            font-weight: 700;
-            background: var(--accent-gradient);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 1rem;
-            animation: glow 2s ease-in-out infinite alternate;
+            font-size:3rem; font-weight:700;
+            background:var(--accent-gradient);
+            -webkit-background-clip:text; background-clip:text;
+            -webkit-text-fill-color:transparent;
+            margin-bottom:1rem; animation:glow 2s ease-in-out infinite alternate;
         }
-
-        .subtitle {
-            font-size: 1.2rem;
-            color: var(--text-secondary);
-            margin-bottom: 2rem;
-            font-weight: 300;
-        }
-
-        .input-group {
-            margin-bottom: 2rem;
-        }
-
+        .subtitle { font-size:1.2rem; color:var(--text-secondary); margin-bottom:2rem; font-weight:300; }
+        .input-group { margin-bottom:2rem; }
         .glass-input {
-            width: 100%;
-            padding: 1rem 1.5rem;
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            border-radius: 15px;
-            color: var(--text-primary);
-            font-size: 1.1rem;
-            font-family: inherit;
-            outline: none;
-            transition: all 0.3s ease;
+            width:100%; padding:1rem 1.5rem; background:var(--glass-bg);
+            border:1px solid var(--glass-border); border-radius:15px;
+            color:var(--text-primary); font-size:1.1rem; transition:.3s;
         }
-
-        .glass-input:focus {
-            border-color: #19d184;
-            transform: scale(1.02);
-        }
-
-        .glass-input::placeholder {
-            color: var(--text-secondary);
-        }
-
-        /* Button Styles */
+        .glass-input:focus { border-color:#19d184; transform:scale(1.02); }
         .btn {
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: 15px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-            text-align: center;
-            font-family: inherit;
-            position: relative;
-            overflow: hidden;
+            padding:1rem 2rem; border:none; border-radius:15px;
+            font-size:1.1rem; font-weight:600; cursor:pointer;
+            transition:.3s; position:relative; overflow:hidden;
         }
-
         .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s ease;
+            content:''; position:absolute; top:0; left:-100%; width:100%; height:100%;
+            background:linear-gradient(90deg, transparent, rgba(255,255,255,.2), transparent);
+            transition:left .5s;
         }
-
-        .btn:hover::before {
-            left: 100%;
+        .btn:hover::before { left:100%; }
+        .btn-primary { background:var(--primary-gradient); color:var(--text-primary); }
+        .btn-secondary { background:var(--glass-bg); border:1px solid var(--glass-border); color:var(--text-primary); }
+        .btn-share { background:linear-gradient(135deg,#19d184 0%,#19d184 100%); color:white; margin:.5rem; }
+        .rules-list { list-style:none; margin-bottom:2rem; text-align:center; }
+        .rules-list li { padding:1rem 0; border-bottom:1px solid rgba(255,255,255,.1); font-size:1.1rem; }
+        .quiz-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:2rem; gap:1rem; flex-wrap:wrap; }
+        .progress-container { flex:1; margin:0 1rem; min-width:200px; }
+        .progress-bar { height:8px; background:rgba(255,255,255,.2); border-radius:10px; overflow:hidden; }
+        .progress-fill { height:100%; background:var(--accent-gradient); transition:width .3s; border-radius:10px; }
+        .progress-text { text-align:center; margin-top:.5rem; color:var(--text-secondary); }
+        .timer { display:flex; align-items:center; justify-content:center; width:80px; height:80px;
+            border-radius:50%; background:var(--glass-bg); border:3px solid var(--success-color);
+            font-size:1.6rem; font-weight:700; transition:.3s;
         }
-
-        .btn-primary {
-            background: var(--primary-gradient);
-            color: var(--text-primary);
-
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-3px) scale(1.05);
-
-        }
-
-        .btn-secondary {
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            color: var(--text-primary);
-            border: 1px solid var(--glass-border);
-        }
-
-        .btn-secondary:hover {
-            transform: translateY(-2px);
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .btn-share {
-            background: linear-gradient(135deg, #19d184 0%, #19d184 100%);
-            color: white;
-            margin: 0 0.5rem;
-        }
-
-        .btn-share:hover {
-            transform: translateY(-2px) scale(1.05);
-
-        }
-
-        /* Rules Screen */
-        .rules-content {
-            max-width: 600px;
-            width: 100%;
-        }
-
-        .rules-list {
-            list-style: none;
-            margin-bottom: 2rem;
-            text-align: center;
-        }
-
-        .rules-list li {
-            
-            padding: 1rem 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-        }
-
-        /* Quiz Screen */
-        .quiz-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .progress-container {
-            flex: 1;
-            margin: 0 1rem;
-            min-width: 200px;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: var(--accent-gradient);
-            transition: width 0.3s ease;
-            border-radius: 10px;
-        }
-
-        .progress-text {
-            text-align: center;
-            margin-top: 0.5rem;
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-        }
-
-        .timer {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            border: 3px solid var(--success-color);
-            font-size: 1.5rem;
-            font-weight: 700;
-            transition: all 0.3s ease;
-        }
-
-        .timer.warning {
-            border-color: var(--warning-color);
-            color: var(--warning-color);
-            animation: pulse 1s ease-in-out infinite;
-        }
-
-        .timer.danger {
-            border-color: var(--danger-color);
-            color: var(--danger-color);
-            animation: shake 0.5s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-
-            0%,
-            100% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(1.1);
-            }
-        }
-
-        @keyframes shake {
-
-            0%,
-            100% {
-                transform: translateX(0);
-            }
-
-            25% {
-                transform: translateX(-5px);
-            }
-
-            75% {
-                transform: translateX(5px);
-            }
-        }
-
-        .question-container {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .question-text {
-            font-size: 1.4rem;
-            font-weight: 600;
-            margin-bottom: 2rem;
-            line-height: 1.6;
-        }
-
-        .options-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1rem;
-        }
-
+        .timer.warning { border-color:var(--warning-color); color:var(--warning-color); }
+        .timer.danger { border-color:var(--danger-color); color:var(--danger-color); }
+        .question-text { font-size:1.4rem; margin-bottom:2rem; }
+        .options-container { display:grid; gap:1rem; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); }
         .option {
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            border: 2px solid var(--glass-border);
-            border-radius: 15px;
-            padding: 1.2rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-align: left;
-            font-size: 1.1rem;
-            position: relative;
-            overflow: hidden;
+            background:var(--glass-bg); border:2px solid var(--glass-border);
+            border-radius:15px; padding:1.2rem; cursor:pointer; transition:.3s;
         }
-
-        .option:hover {
-            transform: translateY(-5px) scale(1.02);
-            border-color: rgba(0, 163, 122, 0.6);
-
-        }
-
-        .option.selected {
-            border-color: rgba(0, 98, 36, 0.8);
-            transform: scale(1.02);
-        }
-
-        .option.correct {
-            background: rgba(16, 185, 129, 0.3);
-            border-color: var(--success-color);
-            animation: correctPulse 0.6s ease;
-        }
-
-        .option.incorrect {
-            background: rgba(239, 68, 68, 0.3);
-            border-color: var(--danger-color);
-            animation: incorrectShake 0.6s ease;
-        }
-
-        @keyframes correctPulse {
-            0% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(1.05);
-            }
-
-            100% {
-                transform: scale(1);
-            }
-        }
-
-        @keyframes incorrectShake {
-
-            0%,
-            100% {
-                transform: translateX(0);
-            }
-
-            25% {
-                transform: translateX(-10px);
-            }
-
-            75% {
-                transform: translateX(10px);
-            }
-        }
-
-        /* Results Screen */
-        .results-content {
-            text-align: center;
-            max-width: 500px;
-            width: 100%;
-        }
-
+        .option:hover { transform:translateY(-5px) scale(1.02); border-color:rgba(0,163,122,.6); }
+        .option.correct { background:rgba(16,185,129,.3); border-color:var(--success-color); }
+        .option.incorrect { background:rgba(239,68,68,.3); border-color:var(--danger-color); }
+        .results-content { text-align:center; max-width:500px; }
         .score-display {
-            font-size: 4rem;
-            font-weight: 700;
-            background: var(--accent-gradient);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 1rem;
-            animation: scoreCount 2s ease-out;
+            font-size:4rem; font-weight:700; background:var(--accent-gradient);
+            -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
         }
-
-        @keyframes scoreCount {
-            from {
-                transform: scale(0.5);
-                opacity: 0;
-            }
-
-            to {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        .score-message {
-            font-size: 1.3rem;
-            margin-bottom: 2rem;
-            color: var(--text-secondary);
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 2rem;
-        }
-
-        /* Footer */
-        .footer {
-            position: fixed;
-            bottom: 1rem;
-            right: 1rem;
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            z-index: 1000;
-        }
-
-        .footer a {
-            color: var(--text-primary);
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .glass-container {
-                padding: 1.5rem;
-                margin: 1rem;
-            }
-
-            .logo {
-                font-size: 2.5rem;
-            }
-
-            .quiz-header {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .progress-container {
-                margin: 0;
-                order: -1;
-            }
-
-            .timer {
-                width: 60px;
-                height: 60px;
-                font-size: 1.2rem;
-            }
-
-            .question-text {
-                font-size: 1.2rem;
-            }
-
-            .options-container {
-                grid-template-columns: 1fr;
-            }
-
-            .score-display {
-                font-size: 3rem;
-            }
-
-            .action-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .action-buttons .btn {
-                width: 100%;
-                max-width: 300px;
-            }
-        }
-
-        /* Smooth transitions between screens */
-        .fade-out {
-            opacity: 0;
-            transform: translateY(-20px);
-            transition: all 0.5s ease;
-        }
-
-        .fade-in {
-            opacity: 1;
-            transform: translateY(0);
-            transition: all 0.5s ease;
-        }
-
-        /* Loading animation */
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid var(--text-secondary);
-            border-radius: 50%;
-            border-top-color: var(--text-primary);
-            animation: spin 1s ease-in-out infinite;
-        }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
+        .action-buttons { display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; margin-top:2rem; }
+        .footer { position:fixed; bottom:1rem; right:1rem; color:var(--text-secondary); font-size:.9rem; }
     </style>
 </head>
-
 <body>
 
-    <!-- Welcome Screen -->
-    <div id="welcomeScreen" class="screen active">
-        <div class="glass-container welcome-content">
-            <h1 class="logo">Ritual Quiz</h1>
-            <p class="subtitle">Challenge Your Knowledge</p>
+<!-- WELCOME -->
+<div id="welcomeScreen" class="screen active">
+    <div class="glass-container welcome-content">
+        <h1 class="logo">Ritual Quiz</h1>
+        <p class="subtitle">Challenge Your Knowledge</p>
+        <div class="input-group">
+            <input type="text" id="usernameInput" class="glass-input" placeholder="Enter your name" maxlength="20">
+        </div>
+        <button class="btn btn-primary" onclick="showRules()">Start Challenge</button>
+    </div>
+</div>
 
-            <div class="input-group">
-                <input type="text" id="usernameInput" class="glass-input" placeholder="Enter your name" maxlength="20">
-            </div>
-
-            <button class="btn btn-primary" onclick="showRules()">Start Challenge</button>
+<!-- RULES -->
+<div id="rulesScreen" class="screen">
+    <div class="glass-container rules-content">
+        <h2 style="text-align:center; margin-bottom:2rem;">Quiz Rules</h2>
+        <ul class="rules-list">
+            <li>10 challenging questions</li>
+            <li>4 multiple choice answers each</li>
+            <li>15 seconds per question</li>
+            <li>Auto-advance when timer expires</li>
+            <li>No going back</li>
+            <li>Score revealed at the end</li>
+        </ul>
+        <div style="text-align:center;">
+            <button class="btn btn-secondary" onclick="showWelcome()">Back</button>
+            <button class="btn btn-primary" onclick="startQuiz()">Let's Begin!</button>
         </div>
     </div>
+</div>
 
-    <!-- Rules Screen -->
-    <div id="rulesScreen" class="screen">
-        <div class="glass-container rules-content">
-            <h2 style="text-align: center; margin-bottom: 2rem; font-size: 2rem;">Quiz Rules</h2>
-
-            <ul class="rules-list">
-                <li>Answer 10 challenging questions</li>
-                <li>Each question has 4 multiple choice options</li>
-                <li>You have 15 seconds per question</li>
-                <li>Questions auto-advance when time expires</li>
-                <li>No going back to previous questions</li>
-                <li>Your final score will be calculated at the end</li>
-            </ul>
-
-            <div style="text-align: center;">
-                <button class="btn btn-secondary" onclick="showWelcome()" style="margin-right: 1rem;">Back</button>
-                <button class="btn btn-primary" onclick="startQuiz()">Let's Begin!</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Quiz Screen -->
-    <div id="quizScreen" class="screen">
-        <div class="glass-container" style="max-width: 800px; width: 100%;">
-            <div class="quiz-header">
-                <div style="font-weight: 600;">Score: <span id="currentScore">0</span></div>
-
-                <div class="progress-container">
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="progressFill"></div>
-                    </div>
-                    <div class="progress-text" id="progressText">Question 1 of 10</div>
+<!-- QUIZ -->
+<div id="quizScreen" class="screen">
+    <div class="glass-container" style="max-width:800px; width:100%;">
+        <div class="quiz-header">
+            <div style="font-weight:600;">Score: <span id="currentScore">0</span></div>
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
                 </div>
-                
-            <div class="question-container">
-                <h3 class="question-text" id="questionText"></h3>
-
-                <div class="options-container" id="optionsContainer">
-                    <!-- Options will be dynamically generated -->
-                </div>
+                <div class="progress-text" id="progressText">Question 1 of 10</div>
             </div>
+            <!-- FIXED TIMER -->
+            <div class="timer" id="timer">15</div>
+        </div>
+        <div class="question-container">
+            <h3 class="question-text" id="questionText"></h3>
+            <div class="options-container" id="optionsContainer"></div>
         </div>
     </div>
+</div>
 
-    <!-- Results Screen -->
-    <div id="resultsScreen" class="screen">
-        <div class="glass-container results-content">
-            <h2 style="margin-bottom: 1rem; font-size: 2rem;">Quiz Complete!</h2>
-
-            <div class="score-display" id="finalScore">0/10</div>
-
-            <p class="score-message" id="scoreMessage"></p>
-
-            <div class="action-buttons">
-                <button class="btn btn-share" onclick="shareToX()">Share on X</button>
-                <button class="btn btn-primary" onclick="restartQuiz()">Try Again</button>
-            </div>
+<!-- RESULTS -->
+<div id="resultsScreen" class="screen">
+    <div class="glass-container results-content">
+        <h2>Quiz Complete!</h2>
+        <div class="score-display" id="finalScore">0/10</div>
+        <p class="score-message" id="scoreMessage"></p>
+        <div class="action-buttons">
+            <button class="btn btn-share" onclick="shareToX()">Share on X</button>
+            <button class="btn btn-primary" onclick="restartQuiz()">Try Again</button>
         </div>
     </div>
+</div>
 
-    <!-- Footer -->
-    <div class="footer">
-        Made by <a href="#">Bytrizz</a>
-    </div>
+<div class="footer">Made by <a href="#">Bytrizz</a></div>
 
-    <script>
-        // Quiz Data
-        const quizData = [
-            {
-                question: "Within Ritual’s Symphony protocol, which mechanism ensures validator consensus on heterogeneous off-chain computations while minimizing redundant execution?",
-                options: [
-                    "Weighted-majority gossip rounds determining probabilistic correctness.",
-                    "Executor-provided succinct proofs or attested TEE outputs verified by deterministically assigned proof shards.",
-                    "Re-execution of the computation by every validator node for cross-verification.",
-                    "Asynchronous batching of inference results through optimistic settlement."
-                ],
-                correct: 1
-            },
-            {
-                question: "When Ritual’s Infernet orchestrates inference across distributed AI executors, what underlying property guarantees composability with external L1/L2s?",
-                options: [
-                    "Infernet maintains an off-chain indexer layer for every external chain.",
-                    "Cross-domain compute proofs are wrapped in canonical message envelopes verified by Ritual Chain’s Symphony consensus.",
-                    "External chains directly read cached responses from Ritual node mempools.",
-                    "Ritual mirrors its state roots to all supported chains via static RPC bridging."
-                ],
-                correct: 3
-            },
-            {
-                question: "Which operational risk arises from Resonance’s compute fee market during load spikes, and how is it algorithmically mitigated?",
-                options: [
-                    "Task starvation of low-fee requests, mitigated through dynamic priority decay and time-weighted bids.",
-                    "Overpricing of high-latency models, mitigated via static gas caps per workload type.",
-                    "Executor monopoly formation, mitigated only by node whitelisting.",
-                    "Invalid bid propagation, mitigated through human governance arbitration."
-                ],
-                correct: 0
-            },
-            {
-                question: "In Ritual’s architecture, what prevents a malicious TEE executor from replaying signed outputs as new valid inferences?",
-                options: [
-                    "TEE sessions are tied to ephemeral attestation keys and unique execution nonces embedded in proof metadata.",
-                    "Infernet timestamps every result in block headers to prevent temporal reuse.",
-                    "TEE proofs are manually invalidated by governance after each task cycle.",
-                    "Replay resistance is provided only by the executor’s public reputation score."
-                ],
-                correct: 2
-            },
-            {
-                question: "What subtle advantage does Ritual’s proof-system agnosticism provide for AI verifiability, beyond flexibility?",
-                options: [
-                    "Allows zero-cost migration between ZK systems without recompilation.",
-                    "Permits hybrid proof pipelines — e.g., ZKML for inference correctness, TEE attestation for data secrecy — optimizing trust boundaries per workload.",
-                    "Eliminates need for deterministic model weights on-chain.",
-                    "Lets developers outsource proof verification entirely to other chains."
-                ],
-                correct: 3
-            },
-            {
-                question: "Within Symphony’s dual-proof sharding, what ensures that no single shard can bias final verification?",
-                options: [
-                    "Cross-shard recombination with quorum-weighted cross-signatures validated by meta-committees.",
-                    "Static shard assignment so validators remain consistent between epochs.",
-                    "Proof rotation every epoch determined by static randomness seeds.",
-                    "Validator honesty assumption without cryptographic enforcement."
-                ],
-                correct: 0
-            },
-            {
-                question: "How does Ritual encode immutable lineage for enshrined models to maintain auditability even if contributors vanish?",
-                options: [
-                    "By replicating the contributor list through IPFS mirrors.",
-                    "By embedding signed contribution manifests directly within model metadata hashes, permanently anchored in Ritual Chain state.",
-                    "Through optional contributor acknowledgments stored in governance logs.",
-                    "Using off-chain attestations submitted to Infernet indexers."
-                ],
-                correct: 2
-            },
-            {
-                question: "In scheduling autonomous agents, what structural safeguard prevents infinite recursive invocation or denial-of-service loops?",
-                options: [
-                    "Recursive agent limits enforced by off-chain keepers.",
-                    "Dynamic gas throttling based on agent priority queue density.",
-                    "Deterministic call-graph bounding and execution context sealing at the protocol level.",
-                    "Randomized epoch resets that clear pending agent tasks."
-                ],
-                correct: 1
-            },
-            {
-                question: "What cryptoeconomic design prevents centralized control of inference-heavy nodes within the Resonance market?",
-                options: [
-                    "Linear stake-weighted selection of executors.",
-                    "Periodic identity resets using Proof-of-Hardware commitments.",
-                    "Sybil-resistant bonding curves that increase marginal stake cost for repeated executor selection.",
-                    "Time-based decay of delegation reputation tied to compute variance."
-                ],
-                correct: 3
-            },
-            {
-                question: "Which layer in Ritual’s architecture mediates between off-chain heterogeneous execution and on-chain finality for verifiable results?",
-                options: [
-                    "The Proof Relay Layer integrating Infernet’s output commitments into Symphony consensus.",
-                    "The RPC routing layer handling direct node responses.",
-                    "The Resonance fee aggregator layer optimizing price discovery.",
-                    "The Governance pipeline filtering invalid inference traces."
-                ],
-                correct: 0
-            }
-        ];
+<script>
+    const quizData = [
+        { question:"Within Ritual’s Symphony protocol, which mechanism ensures validator consensus on heterogeneous off-chain computations while minimizing redundant execution?",
+          options:[
+            "Weighted-majority gossip rounds determining probabilistic correctness.",
+            "Executor-provided succinct proofs or attested TEE outputs verified by deterministically assigned proof shards.",
+            "Re-execution of the computation by every validator node for cross-verification.",
+            "Asynchronous batching of inference results through optimistic settlement."
+          ], correct:1 },
+        { question:"When Ritual’s Infernet orchestrates inference across distributed AI executors, what underlying property guarantees composability with external L1/L2s?",
+          options:[
+            "Infernet maintains an off-chain indexer layer for every external chain.",
+            "Cross-domain compute proofs are wrapped in canonical message envelopes verified by Ritual Chain’s Symphony consensus.",
+            "External chains directly read cached responses from Ritual node mempools.",
+            "Ritual mirrors its state roots to all supported chains via static RPC bridging."
+          ], correct:3 },
+        { question:"Which operational risk arises from Resonance’s compute fee market during load spikes, and how is it algorithmically mitigated?",
+          options:[
+            "Task starvation of low-fee requests, mitigated through dynamic priority decay and time-weighted bids.",
+            "Overpricing of high-latency models, mitigated via static gas caps per workload type.",
+            "Executor monopoly formation, mitigated only by node whitelisting.",
+            "Invalid bid propagation, mitigated through human governance arbitration."
+          ], correct:0 },
+        { question:"In Ritual’s architecture, what prevents a malicious TEE executor from replaying signed outputs as new valid inferences?",
+          options:[
+            "TEE sessions are tied to ephemeral attestation keys and unique execution nonces embedded in proof metadata.",
+            "Infernet timestamps every result in block headers to prevent temporal reuse.",
+            "TEE proofs are manually invalidated by governance after each task cycle.",
+            "Replay resistance is provided only by the executor’s public reputation score."
+          ], correct:0 },
+        { question:"What subtle advantage does Ritual’s proof-system agnosticism provide for AI verifiability, beyond flexibility?",
+          options:[
+            "Allows zero-cost migration between ZK systems without recompilation.",
+            "Permits hybrid proof pipelines — e.g., ZKML for inference correctness, TEE attestation for data secrecy — optimizing trust boundaries per workload.",
+            "Eliminates need for deterministic model weights on-chain.",
+            "Lets developers outsource proof verification entirely to other chains."
+          ], correct:1 },
+        { question:"Within Symphony’s dual-proof sharding, what ensures that no single shard can bias final verification?",
+          options:[
+            "Cross-shard recombination with quorum-weighted cross-signatures validated by meta-committees.",
+            "Static shard assignment so validators remain consistent between epochs.",
+            "Proof rotation every epoch determined by static randomness seeds.",
+            "Validator honesty assumption without cryptographic enforcement."
+          ], correct:0 },
+        { question:"How does Ritual encode immutable lineage for enshrined models to maintain auditability even if contributors vanish?",
+          options:[
+            "By replicating the contributor list through IPFS mirrors.",
+            "By embedding signed contribution manifests directly within model metadata hashes, permanently anchored in Ritual Chain state.",
+            "Through optional contributor acknowledgments stored in governance logs.",
+            "Using off-chain attestations submitted to Infernet indexers."
+          ], correct:1 },
+        { question:"In scheduling autonomous agents, what structural safeguard prevents infinite recursive invocation or denial-of-service loops?",
+          options:[
+            "Recursive agent limits enforced by off-chain keepers.",
+            "Dynamic gas throttling based on agent priority queue density.",
+            "Deterministic call-graph bounding and execution context sealing at the protocol level.",
+            "Randomized epoch resets that clear pending agent tasks."
+          ], correct:2 },
+        { question:"What cryptoeconomic design prevents centralized control of inference-heavy nodes within the Resonance market?",
+          options:[
+            "Linear stake-weighted selection of executors.",
+            "Periodic identity resets using Proof-of-Hardware commitments.",
+            "Sybil-resistant bonding curves that increase marginal stake cost for repeated executor selection.",
+            "Time-based decay of delegation reputation tied to compute variance."
+          ], correct:2 },
+        { question:"Which layer in Ritual’s architecture mediates between off-chain heterogeneous execution and on-chain finality for verifiable results?",
+          options:[
+            "The Proof Relay Layer integrating Infernet’s output commitments into Symphony consensus.",
+            "The RPC routing layer handling direct node responses.",
+            "The Resonance fee aggregator layer optimizing price discovery.",
+            "The Governance pipeline filtering invalid inference traces."
+          ], correct:0 }
+    ];
 
+    let currentQuestion = 0, score = 0, timer = 15, timerInterval, username = "", isAnswered = false;
 
-        // Game State
-        let currentQuestion = 0;
-        let score = 0;
-        let timer = 15;
-        let timerInterval;
-        let username = '';
-        let selectedAnswer = '';
-        let isAnswered = false;
+    function showScreen(id){
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+    }
+    function showWelcome(){ showScreen('welcomeScreen'); }
+    function showRules(){
+        username = document.getElementById('usernameInput').value.trim();
+        if(!username) return alert("Please enter your name!");
+        showScreen('rulesScreen');
+    }
+    function startQuiz(){
+        currentQuestion = 0; score = 0; showScreen('quizScreen');
+        displayQuestion(); startTimer();
+    }
+    function restartQuiz(){
+        clearInterval(timerInterval);
+        showScreen('welcomeScreen');
+    }
 
-        // Screen Management
-        function showScreen(screenId) {
-            const screens = document.querySelectorAll('.screen');
-            screens.forEach(screen => {
-                screen.classList.remove('active');
-            });
+    function displayQuestion(){
+        const q = quizData[currentQuestion];
+        isAnswered = false;
+        document.getElementById('currentScore').textContent = score;
+        document.getElementById('progressFill').style.width = ((currentQuestion)/quizData.length)*100 + "%";
+        document.getElementById('progressText').textContent = `Question ${currentQuestion+1} of ${quizData.length}`;
+        document.getElementById('questionText').textContent = q.question;
 
-            setTimeout(() => {
-                document.getElementById(screenId).classList.add('active');
-            }, 300);
-        }
+        const container = document.getElementById('optionsContainer');
+        container.innerHTML = "";
+        q.options.forEach((text, idx) => {
+            const div = document.createElement('div');
+            div.className = "option";
+            div.textContent = text;
+            div.onclick = () => selectAnswer(idx, div);
+            container.appendChild(div);
+        });
+    }
 
-        function showWelcome() {
-            showScreen('welcomeScreen');
-        }
+    function selectAnswer(index, el){
+        if(isAnswered) return;
+        isAnswered = true;
 
-        function showRules() {
-            username = document.getElementById('usernameInput').value.trim();
+        setTimeout(() => checkAnswer(index), 400);
+    }
 
-            if (!username) {
-                alert('Please enter your name!');
-                return;
-            }
-
-            showScreen('rulesScreen');
-        }
-
-        function startQuiz() {
-            currentQuestion = 0;
-            score = 0;
-            showScreen('quizScreen');
-            displayQuestion();
-            startTimer();
-        }
-
-        function restartQuiz() {
-            currentQuestion = 0;
-            score = 0;
-            clearInterval(timerInterval);
-            showScreen('welcomeScreen');
-            document.getElementById('usernameInput').value = username;
-        }
-
-        // Quiz Logic
-        function displayQuestion() {
-            const question = quizData[currentQuestion];
-            isAnswered = false;
-            selectedAnswer = '';
-
-            // Update progress
-            const progress = ((currentQuestion) / quizData.length) * 100;
-            document.getElementById('progressFill').style.width = progress + '%';
-            document.getElementById('progressText').textContent = `Question ${currentQuestion + 1} of ${quizData.length}`;
-
-            // Update score display
-            document.getElementById('currentScore').textContent = score;
-
-            // Display question
-            document.getElementById('questionText').textContent = question.question;
-
-            // Display options
-            const optionsContainer = document.getElementById('optionsContainer');
-            optionsContainer.innerHTML = '';
-
-            question.options.forEach((option, index) => {
-                const optionElement = document.createElement('div');
-                optionElement.className = 'option';
-                optionElement.textContent = option;
-                optionElement.onclick = () => selectAnswer(option, optionElement);
-                optionsContainer.appendChild(optionElement);
-            });
-        }
-
-        function selectAnswer(answer, element) {
-            if (isAnswered) return;
-
-            isAnswered = true;
-            selectedAnswer = answer;
-
-            // Clear previous selections
-            document.querySelectorAll('.option').forEach(opt => {
-                opt.classList.remove('selected');
-            });
-
-            // Mark selected
-            element.classList.add('selected');
-
-            // Check answer after short delay for better UX
-            setTimeout(() => {
-                checkAnswer();
-            }, 500);
-        }
-
-        function checkAnswer() {
-            const question = quizData[currentQuestion];
-            const options = document.querySelectorAll('.option');
-
-            options.forEach(option => {
-                if (option.textContent === question.correct) {
-                    option.classList.add('correct');
-                    if (selectedAnswer === question.correct) {
-                        score++;
-                    }
-                } else if (option.textContent === selectedAnswer && selectedAnswer !== question.correct) {
-                    option.classList.add('incorrect');
-                }
-            });
-
-            // Move to next question after showing results
-            setTimeout(() => {
-                nextQuestion();
-            }, 1500);
-        }
-
-        function nextQuestion() {
-            clearInterval(timerInterval);
-            currentQuestion++;
-
-            if (currentQuestion < quizData.length) {
-                displayQuestion();
-                startTimer();
-            } else {
-                showResults();
-            }
-        }
-
-        function startTimer() {
-            timer = 15;
-            const timerElement = document.getElementById('timer');
-            timerElement.textContent = timer;
-            timerElement.className = 'timer';
-
-            timerInterval = setInterval(() => {
-                timer--;
-                timerElement.textContent = timer;
-
-                // Update timer appearance based on remaining time
-                if (timer <= 5) {
-                    timerElement.className = 'timer danger';
-                } else if (timer <= 10) {
-                    timerElement.className = 'timer warning';
-                }
-
-                // Time's up!
-                if (timer <= 0) {
-                    clearInterval(timerInterval);
-                    if (!isAnswered) {
-                        isAnswered = true;
-                        // Show correct answer and move on
-                        const question = quizData[currentQuestion];
-                        const options = document.querySelectorAll('.option');
-                        options.forEach(option => {
-                            if (option.textContent === question.correct) {
-                                option.classList.add('correct');
-                            }
-                        });
-
-                        setTimeout(() => {
-                            nextQuestion();
-                        }, 1500);
-                    }
-                }
-            }, 1000);
-        }
-
-        function showResults() {
-            clearInterval(timerInterval);
-
-            // Update progress to 100%
-            document.getElementById('progressFill').style.width = '100%';
-
-            // Calculate percentage
-            const percentage = Math.round((score / quizData.length) * 100);
-
-            // Display results
-            document.getElementById('finalScore').textContent = `${score}/${quizData.length}`;
-
-            // Customize message based on score
-            let message = '';
-            if (percentage >= 90) {
-                message = `Outstanding, ${username}! You're a quiz master! `;
-            } else if (percentage >= 70) {
-                message = `Great job, ${username}! Well done! `;
-            } else if (percentage >= 50) {
-                message = `Good effort, ${username}! Keep practicing! `;
-            } else {
-                message = `Don't give up, ${username}! Try again! `;
-            }
-
-            document.getElementById('scoreMessage').textContent = message;
-
-            showScreen('resultsScreen');
-        }
-
-        function shareToX() {
-            const percentage = Math.round((score / quizData.length) * 100);
-            const text = `I just scored ${score}/${quizData.length} (${percentage}%) on the Ritual Quiz Challenge! Can you beat my score?`;
-            const url = 'https://elite-quiz.bytrizz.com';
-            const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
-
-            window.open(shareUrl, '_blank', 'width=600,height=400');
-        }
-
-        // Keyboard Support
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
-                const activeScreen = document.querySelector('.screen.active').id;
-
-                if (activeScreen === 'welcomeScreen') {
-                    showRules();
-                } else if (activeScreen === 'rulesScreen') {
-                    startQuiz();
-                }
-            }
-
-            // Number key selection for options (1-4)
-            if (activeScreen === 'quizScreen' && !isAnswered) {
-                const num = parseInt(e.key);
-                if (num >= 1 && num <= 4) {
-                    const options = document.querySelectorAll('.option');
-                    if (options[num - 1]) {
-                        selectAnswer(options[num - 1].textContent, options[num - 1]);
-                    }
-                }
+    function checkAnswer(selectedIndex){
+        const q = quizData[currentQuestion];
+        document.querySelectorAll('.option').forEach((opt, idx) => {
+            if(idx === q.correct){
+                opt.classList.add('correct');
+                if(selectedIndex === idx) score++;
+            } else if(idx === selectedIndex){
+                opt.classList.add('incorrect');
             }
         });
 
-        // Auto-focus username input
-        document.getElementById('usernameInput').focus();
-    </script>
-</body>
+        setTimeout(nextQuestion, 1400);
+    }
 
+    function nextQuestion(){
+        clearInterval(timerInterval);
+        currentQuestion++;
+        if(currentQuestion < quizData.length){
+            displayQuestion();
+            startTimer();
+        } else showResults();
+    }
+
+    function startTimer(){
+        timer = 15;
+        const t = document.getElementById('timer');
+        t.textContent = timer;
+        t.className = "timer";
+
+        timerInterval = setInterval(() => {
+            timer--;
+            t.textContent = timer;
+            if(timer <= 5) t.className = "timer danger";
+            else if(timer <= 10) t.className = "timer warning";
+
+            if(timer <= 0){
+                clearInterval(timerInterval);
+                checkAnswer(-1);
+            }
+        },1000);
+    }
+
+    function showResults(){
+        document.getElementById('finalScore').textContent = `${score}/${quizData.length}`;
+        const pct = Math.round((score/quizData.length)*100);
+        const msg = pct>=90 ? `Outstanding, ${username}!`
+                 : pct>=70 ? `Great job, ${username}!`
+                 : pct>=50 ? `Good effort, ${username}!`
+                 : `Don't give up, ${username}! Try again!`;
+        document.getElementById('scoreMessage').textContent = msg;
+        showScreen('resultsScreen');
+    }
+
+    function shareToX(){
+        const pct = Math.round((score/quizData.length)*100);
+        const text = `I scored ${score}/${quizData.length} (${pct}%) on the Ritual Quiz Challenge! Can you beat me?`;
+        const url = "https://elite-quiz.bytrizz.com";
+        window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`);
+    }
+</script>
+</body>
 </html>
